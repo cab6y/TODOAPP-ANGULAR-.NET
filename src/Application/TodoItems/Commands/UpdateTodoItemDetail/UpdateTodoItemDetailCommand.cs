@@ -15,6 +15,7 @@ public record UpdateTodoItemDetailCommand : IRequest
     public PriorityLevel Priority { get; init; }
 
     public string? Note { get; init; }
+    public string? Tag { get; init; } //TASK2 - add Tag property
 }
 
 public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItemDetailCommand>
