@@ -1066,8 +1066,8 @@ export class TodoItemDto implements ITodoItemDto {
     title?: string | undefined;
     done?: boolean;
     priority?: number;
-  note?: string | undefined;
-  tag?: string | undefined;
+    note?: string | undefined;
+    tag?: string | undefined;
 
     constructor(data?: ITodoItemDto) {
         if (data) {
@@ -1086,6 +1086,7 @@ export class TodoItemDto implements ITodoItemDto {
             this.done = _data["done"];
             this.priority = _data["priority"];
             this.note = _data["note"];
+            this.tag = _data["tag"];
         }
     }
 
@@ -1104,6 +1105,7 @@ export class TodoItemDto implements ITodoItemDto {
         data["done"] = this.done;
         data["priority"] = this.priority;
         data["note"] = this.note;
+        data["tag"] = this.tag;
         return data;
     }
 }
@@ -1115,6 +1117,7 @@ export interface ITodoItemDto {
     done?: boolean;
     priority?: number;
     note?: string | undefined;
+    tag?: string | undefined;
 }
 
 export class CreateTodoListCommand implements ICreateTodoListCommand {

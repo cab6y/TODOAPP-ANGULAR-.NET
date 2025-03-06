@@ -40,6 +40,7 @@ public class UpdateTodoItemDetailCommandHandler : IRequestHandler<UpdateTodoItem
         entity.ListId = request.ListId;
         entity.Priority = request.Priority;
         entity.Note = request.Note;
+        entity.Tag = request.Tag;
 
         await _context.SaveChangesAsync(cancellationToken);
 
