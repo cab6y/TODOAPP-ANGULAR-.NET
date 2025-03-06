@@ -854,7 +854,7 @@ export class UpdateTodoItemDetailCommand implements IUpdateTodoItemDetailCommand
     listId?: number;
     priority?: PriorityLevel;
     note?: string | undefined;
-    tag?: string | undefined; // TASK2 - FOR TAG
+    tag?: string | undefined;
 
     constructor(data?: IUpdateTodoItemDetailCommand) {
         if (data) {
@@ -1066,8 +1066,8 @@ export class TodoItemDto implements ITodoItemDto {
     title?: string | undefined;
     done?: boolean;
     priority?: number;
-    note?: string | undefined;
-    tag?: string | undefined; //TASK2 - TAG
+  note?: string | undefined;
+  tag?: string | undefined;
 
     constructor(data?: ITodoItemDto) {
         if (data) {
