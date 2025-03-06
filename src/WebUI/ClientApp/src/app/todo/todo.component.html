@@ -71,11 +71,15 @@
             </div>
             <div class="col-lg-1 col-md-1 col-sm-2">
               <!-- FİRST TASK - The selected color here will be applied as the background for the Todo item in the row.  - Burada seçilen renk satırda todo'ya arka plan olarak uygulanacak'-->
-              <input type="color"
-                     #colorPicker
-                     value="#ffffff"
-                     (input)="colorPicker.style.backgroundColor = colorPicker.value"
-                     class="color-picker" />
+              <div class="color-picker-container">
+  <i class="bi bi-palette color-picker-icon" (click)="colorPicker.click()"></i> <!-- Renk paleti ikonu -->
+  <input type="color"
+      #colorPicker
+      value="#ffffff"
+      (input)="colorPicker.style.backgroundColor = colorPicker.value"
+      class="color-picker" />
+</div>
+
             </div>
           </div>
 

@@ -45,3 +45,18 @@
   width: 24px;
   height: 24px;
 }
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.color-picker {
+  margin-right: 10px; /* İkon ve input arasında boşluk */
+}
+
+.color-picker-icon {
+  font-size: 18px; /* İkon boyutunu ayarlama */
+  color: #333; /* İkon rengi */
+  cursor: pointer; /* İkon üzerine gelindiğinde pointer cursor */
+}
