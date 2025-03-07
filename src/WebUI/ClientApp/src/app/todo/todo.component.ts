@@ -168,6 +168,17 @@ export class TodoComponent implements OnInit {
         this.selectedItem.note = item.note;
         //FEATURE 2 - Users can add and remove tags to the Todo items.
         this.selectedItem.tag = item.tag;
+        this.listsClient.get(this.Tag != "" ? this.Tag : null, this.Title != "" ? this.Title : null).subscribe(
+          result => {
+            this.taglist = result.tagLists;
+            this.lists = result.lists;
+            this.priorityLevels = result.priorityLevels;
+            if (this.lists.length) {
+              this.selectedList = this.lists[0];
+            }
+          },
+          error => console.error(error)
+        );
         this.itemDetailsModalRef.hide();
         this.itemDetailsFormGroup.reset();
       },
