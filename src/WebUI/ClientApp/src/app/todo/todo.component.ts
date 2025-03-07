@@ -275,6 +275,7 @@ export class TodoComponent implements OnInit {
   Tag = "";
   onChangeFilterTag(tag: string) {
     this.Tag = tag;
+    this.selectedList= new TodoListDto;
     //debugger;
     this.listsClient.get(tag, this.Title != "" ? this.Title : null).subscribe(
       result => {

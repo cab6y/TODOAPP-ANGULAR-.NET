@@ -12,6 +12,7 @@ public class TodoItem : BaseAuditableEntity
 
     public DateTime? Reminder { get; set; }
     public string? Tag { get; set; } //for task2
+    public bool IsDeleted { get; set; } = false;
 
     private bool _done;
     public bool Done

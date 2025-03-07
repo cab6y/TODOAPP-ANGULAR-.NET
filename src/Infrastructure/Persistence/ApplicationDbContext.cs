@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Emit;
 using Duende.IdentityServer.EntityFramework.Options;
 using MediatR;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -45,8 +46,26 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        await _mediator.DispatchDomainEvents(this);
+        try
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                var entity = entry.Entity;
 
-        return await base.SaveChangesAsync(cancellationToken);
+                if (entry.State == EntityState.Deleted)
+                {
+                    entry.State = EntityState.Modified;
+                    entity.GetType().GetProperty("IsDeleted").SetValue(entity, true);
+                }
+            }
+            await _mediator.DispatchDomainEvents(this);
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        
     }
 }

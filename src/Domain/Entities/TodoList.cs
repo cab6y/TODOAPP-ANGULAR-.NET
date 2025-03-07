@@ -5,6 +5,7 @@ public class TodoList : BaseAuditableEntity
     public string? Title { get; set; }
 
     public Colour Colour { get; set; } = Colour.White;
+    public bool IsDeleted { get; set; } = false;
 
     public IList<TodoItem> Items { get; set; } = new List<TodoItem>();
 }
