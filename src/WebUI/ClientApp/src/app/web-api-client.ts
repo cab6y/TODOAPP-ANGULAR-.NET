@@ -1081,6 +1081,7 @@ export class TodoItemDto implements ITodoItemDto {
     listId?: number;
     title?: string | undefined;
     done?: boolean;
+    isDeleted?: boolean;
     priority?: number;
     note?: string | undefined;
     tag?: string | undefined;
@@ -1100,6 +1101,7 @@ export class TodoItemDto implements ITodoItemDto {
             this.listId = _data["listId"];
             this.title = _data["title"];
             this.done = _data["done"];
+            this.isDeleted = _data["isDeleted"];
             this.priority = _data["priority"];
             this.note = _data["note"];
             this.tag = _data["tag"];
@@ -1119,6 +1121,7 @@ export class TodoItemDto implements ITodoItemDto {
         data["listId"] = this.listId;
         data["title"] = this.title;
         data["done"] = this.done;
+        data["isDeleted"] = this.isDeleted;
         data["priority"] = this.priority;
         data["note"] = this.note;
         data["tag"] = this.tag;
@@ -1131,6 +1134,7 @@ export interface ITodoItemDto {
     listId?: number;
     title?: string | undefined;
     done?: boolean;
+    isDeleted?: boolean;
     priority?: number;
     note?: string | undefined;
     tag?: string | undefined;

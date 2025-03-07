@@ -614,6 +614,9 @@
           "done": {
             "type": "boolean"
           },
+          "isDeleted": {
+            "type": "boolean"
+          },
           "priority": {
             "type": "integer",
             "format": "int32"

@@ -13,6 +13,7 @@ public class TodoItemDto : IMapFrom<TodoItem>
     public string? Title { get; set; }
 
     public bool Done { get; set; }
+    public bool IsDeleted { get; set; } = false;
 
     public int Priority { get; set; }
 
