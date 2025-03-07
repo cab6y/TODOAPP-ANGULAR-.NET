@@ -43,7 +43,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
           Title = todoList.Title,
           Colour = todoList.Colour,
           Items = todoList.Items
-              .Where(item => item.Tag == request.Filter.Value)
+              .Where(item => item.Tag.Contains(request.Filter.Value))
               .ToList() // Yeni bir liste oluşturup atıyoruz
       }); // Boş olan listeleri filtrele
 

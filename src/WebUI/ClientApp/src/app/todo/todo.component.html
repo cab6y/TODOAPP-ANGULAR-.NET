@@ -37,8 +37,14 @@
           <i class="bi bi-three-dots-vertical"></i>
         </button>
       </div>
-
-      <div class="col-4"><input type="text" placeholder="filter tag" class="form-control" #tagfilter (change)="onChangeFilterTag(tagfilter.value)" /></div>
+      <div class="row">
+        <div class="col-4">
+          <input type="text" placeholder="filter tag" class="form-control" #tagfilter />
+        </div>
+        <div class="col-3">
+          <button class="btn btn-primary" (click)="onChangeFilterTag(tagfilter.value)">Filtre</button>
+        </div>
+      </div>
       <ul id="todo-items" class="list-group mb-2">
         <li class="list-group-item" *ngFor="let item of selectedList.items; index as i" [ngStyle]="{'background-color': colorPicker?.value || '#ffffff'}">
           <!-- This section is split into two columns with a row, thus making the part that sets the background color of the row responsive - burası row ile iki kolona ayrıldı böylelikle satırın arka plan rengini belirteceği bölüm responsive ayarlanması sağlandı-->
