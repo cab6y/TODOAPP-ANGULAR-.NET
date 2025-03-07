@@ -273,10 +273,11 @@ export class TodoComponent implements OnInit {
   Tag = "";
   onChangeFilterTag(tag: string) {
     this.Tag = tag;
-
+    //debugger;
     this.listsClient.get(tag, this.Title != "" ? this.Title : null).subscribe(
       result => {
         this.lists = result.lists;
+        this.lists = this.lists.filter(list => list.items.length > 0);
         this.priorityLevels = result.priorityLevels;
         if (this.lists.length) {
           this.selectedList = this.lists[0];
@@ -288,6 +289,7 @@ export class TodoComponent implements OnInit {
               if (control != null) control.count += 1;
               else this.filtercounterlist.push({ value: tag, count: 1 });
               this.filtercounterlist.sort((a, b) => b.count - a.count);
+             
             }
           }
         }
