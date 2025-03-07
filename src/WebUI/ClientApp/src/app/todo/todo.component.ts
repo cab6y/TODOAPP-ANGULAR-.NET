@@ -46,7 +46,7 @@ export class TodoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listsClient.get(null).subscribe(
+    this.listsClient.get(null,null).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
@@ -270,10 +270,11 @@ export class TodoComponent implements OnInit {
     
     console.log('Yeni renk kaydedildi:', item.bgColor);
   }
+  Tag = "";
   onChangeFilterTag(tag: string) {
-   
+    this.Tag = tag;
 
-    this.listsClient.get(tag).subscribe(
+    this.listsClient.get(tag, this.Title != "" ? this.Title : null).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
@@ -303,8 +304,24 @@ export class TodoComponent implements OnInit {
   }
 
   //FEAUTRE2 - Add text search. (nice to have)
-  filterinlist(value: string) {
-    console.log("************" + value);
+  Title = "";
+  filterinlist(title: string) {
+    this.selectedList = new TodoListDto;
+    this.Title = title;
+    console.log("************* " + title);
+    this.listsClient.get(this.Tag != "" ? this.Tag : null, title).subscribe(
+      result => {
+        this.lists = result.lists;
+        this.priorityLevels = result.priorityLevels;
+        if (this.lists.length) {
+          this.selectedList = this.lists[0];
+          console.log(this.lists[0]);
+        
+        }
+      },
+      error => console.error(error)
+    );
+    
   }
 
 }

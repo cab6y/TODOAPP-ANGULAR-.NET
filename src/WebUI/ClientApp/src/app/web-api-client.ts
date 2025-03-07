@@ -307,7 +307,7 @@ export class TodoItemsClient implements ITodoItemsClient {
 }
 
 export interface ITodoListsClient {
-    get(tag: string | null | undefined): Observable<TodosVm>;
+    get(tag: string | null | undefined, title: string | null | undefined): Observable<TodosVm>;
     create(command: CreateTodoListCommand): Observable<number>;
     get2(id: number): Observable<FileResponse>;
     update(id: number, command: UpdateTodoListCommand): Observable<FileResponse>;
@@ -327,10 +327,12 @@ export class TodoListsClient implements ITodoListsClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(tag: string | null | undefined): Observable<TodosVm> {
+    get(tag: string | null | undefined, title: string | null | undefined): Observable<TodosVm> {
         let url_ = this.baseUrl + "/api/TodoLists?";
         if (tag !== undefined && tag !== null)
             url_ += "Tag=" + encodeURIComponent("" + tag) + "&";
+        if (title !== undefined && title !== null)
+            url_ += "Title=" + encodeURIComponent("" + title) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
