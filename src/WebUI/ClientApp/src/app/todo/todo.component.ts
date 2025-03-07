@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {
   TodoListsClient, TodoItemsClient,
-  TodoListDto, TodoItemDto, PriorityLevelDto,
+  TodoListDto, TodoItemDto, PriorityLevelDto, TagListDto,
   CreateTodoListCommand, UpdateTodoListCommand,
   CreateTodoItemCommand, UpdateTodoItemDetailCommand
 } from '../web-api-client';
@@ -22,6 +22,7 @@ export class TodoComponent implements OnInit {
   filtercounterlist = [];
   priorityLevels: PriorityLevelDto[];
   selectedList: TodoListDto;
+  taglist: TagListDto[];
   selectedItem: TodoItemDto;
   newListEditor: any = {};
   listOptionsEditor: any = {};
@@ -48,6 +49,7 @@ export class TodoComponent implements OnInit {
   ngOnInit(): void {
     this.listsClient.get(null,null).subscribe(
       result => {
+        this.taglist = result.tagLists;
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
         if (this.lists.length) {
@@ -276,6 +278,7 @@ export class TodoComponent implements OnInit {
     //debugger;
     this.listsClient.get(tag, this.Title != "" ? this.Title : null).subscribe(
       result => {
+        this.taglist = result.tagLists;
         this.lists = result.lists;
         this.lists = this.lists.filter(list => list.items.length > 0);
         this.priorityLevels = result.priorityLevels;
@@ -313,6 +316,7 @@ export class TodoComponent implements OnInit {
     console.log("************* " + title);
     this.listsClient.get(this.Tag != "" ? this.Tag : null, title).subscribe(
       result => {
+        this.taglist = result.tagLists;
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
         if (this.lists.length) {

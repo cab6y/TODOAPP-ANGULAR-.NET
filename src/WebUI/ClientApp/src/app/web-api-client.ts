@@ -915,6 +915,7 @@ export enum PriorityLevel {
 export class TodosVm implements ITodosVm {
     priorityLevels?: PriorityLevelDto[];
     lists?: TodoListDto[];
+    tagLists?: TagListDto[];
 
     constructor(data?: ITodosVm) {
         if (data) {
@@ -936,6 +937,11 @@ export class TodosVm implements ITodosVm {
                 this.lists = [] as any;
                 for (let item of _data["lists"])
                     this.lists!.push(TodoListDto.fromJS(item));
+            }
+            if (Array.isArray(_data["tagLists"])) {
+                this.tagLists = [] as any;
+                for (let item of _data["tagLists"])
+                    this.tagLists!.push(TagListDto.fromJS(item));
             }
         }
     }
@@ -959,6 +965,11 @@ export class TodosVm implements ITodosVm {
             for (let item of this.lists)
                 data["lists"].push(item.toJSON());
         }
+        if (Array.isArray(this.tagLists)) {
+            data["tagLists"] = [];
+            for (let item of this.tagLists)
+                data["tagLists"].push(item.toJSON());
+        }
         return data;
     }
 }
@@ -966,6 +977,7 @@ export class TodosVm implements ITodosVm {
 export interface ITodosVm {
     priorityLevels?: PriorityLevelDto[];
     lists?: TodoListDto[];
+    tagLists?: TagListDto[];
 }
 
 export class PriorityLevelDto implements IPriorityLevelDto {
@@ -1122,6 +1134,46 @@ export interface ITodoItemDto {
     priority?: number;
     note?: string | undefined;
     tag?: string | undefined;
+}
+
+export class TagListDto implements ITagListDto {
+    tag?: string;
+    count?: number;
+
+    constructor(data?: ITagListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.tag = _data["tag"];
+            this.count = _data["count"];
+        }
+    }
+
+    static fromJS(data: any): TagListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TagListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["tag"] = this.tag;
+        data["count"] = this.count;
+        return data;
+    }
+}
+
+export interface ITagListDto {
+    tag?: string;
+    count?: number;
 }
 
 export class CreateTodoListCommand implements ICreateTodoListCommand {

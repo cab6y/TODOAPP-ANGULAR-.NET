@@ -31,14 +31,28 @@
       </ul>
     </div>
     <div class="col-sm-8" *ngIf="selectedList">
-      <div class="row">
-        <div class="col-4">
-          <input type="text" placeholder="filter tag" class="form-control" #tagfilter id="filtre" />
-        </div>
-        <div class="col-3">
-          <button class="btn btn-primary" (click)="onChangeFilterTag(tagfilter.value)">Filtre</button>
+      <div class="card">
+        <div class="body">
+          <div class="row mosttags">
+            <div class="col-12 d-flex gap-2">
+              <span *ngFor="let filtre of taglist"
+                    (click)="applyFilter(filtre.tag)"
+                    class="filter-chip">
+                {{ filtre.tag }} ({{ filtre.count }})
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <input type="text" placeholder="filter tag" class="form-control" #tagfilter id="filtre" />
+            </div>
+            <div class="col-3">
+              <button class="btn btn-primary" (click)="onChangeFilterTag(tagfilter.value)">Filtre</button>
+            </div>
+          </div>
         </div>
       </div>
+    
       <div class="clearfix">
         <h2 class="float-start">{{ selectedList.title }}</h2>
         <button id="listOptions" class="btn btn-default float-end" title="List Options..."
@@ -46,22 +60,7 @@
           <i class="bi bi-three-dots-vertical"></i>
         </button>
       </div>
-      <div class="card">
-        <div class="body">
-          <div class="row mosttags">
-            <div class="col-12 d-flex gap-2">
-              <span *ngFor="let filtre of filtercounterlist"
-                    (click)="applyFilter(filtre.value)"
-                    class="filter-chip">
-                {{ filtre.value }} ({{ filtre.count }})
-              </span>
-            </div>
 
-
-          </div>
-
-        </div>
-      </div>
 
       <ul id="todo-items" class="list-group mb-2">
         <li class="list-group-item" *ngFor="let item of selectedList.items; index as i" [ngStyle]="{'background-color': colorPicker?.value || '#ffffff'}">

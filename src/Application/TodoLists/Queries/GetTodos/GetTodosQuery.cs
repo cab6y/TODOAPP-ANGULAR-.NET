@@ -16,6 +16,8 @@ public class GetTodosQuery : IRequest<TodosVm>
 
 public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
 {
+    public static List<TagListDto> TagListDtos { get; set; } = new List<TagListDto>();
+
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
     public GetTodosQueryHandler(IApplicationDbContext context, IMapper mapper)
@@ -30,6 +32,13 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
             var query = _context.TodoLists
             .Include(x => x.Items)
             .AsQueryable();
+            if(request.Filter.Tag != null && request.Filter.Tag != "")
+            {
+                var count = TagListDtos.Where(x => x.Tag == request.Filter.Tag).FirstOrDefault();
+                if (count != null) count.Count += 1;
+                else TagListDtos.Add(new TagListDto { Tag = request.Filter.Tag, Count = 1 });
+            }
+
             //Filtre is not null control
             if (request.Filter != null && !string.IsNullOrEmpty(request.Filter.Title)) query = query.Where(x => x.Title.ToLower().Contains(request.Filter.Title.ToLower()));
             if (request.Filter != null && !string.IsNullOrEmpty(request.Filter.Tag))
@@ -61,7 +70,9 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
                 Lists = await query
                     .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
                     .OrderBy(t => t.Title)
-                    .ToListAsync(cancellationToken)
+                    .ToListAsync(cancellationToken),
+
+                TagLists = TagListDtos.OrderByDescending(x => x.Count).ToList()
             };
         }
         catch (Exception ex)

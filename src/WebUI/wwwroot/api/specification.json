@@ -548,6 +548,12 @@
             "items": {
               "$ref": "#/components/schemas/TodoListDto"
             }
+          },
+          "tagLists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagListDto"
+            }
           }
         }
       },
@@ -619,6 +625,19 @@
           "tag": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "TagListDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "tag": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
