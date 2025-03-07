@@ -1,4 +1,4 @@
-import { Component, TemplateRef, OnInit } from '@angular/core';
+import { Component, TemplateRef, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import {
@@ -19,6 +19,7 @@ export class TodoComponent implements OnInit {
   deleteCountDown = 0;
   deleteCountDownInterval: any;
   lists: TodoListDto[];
+  filtercounterlist = [];
   priorityLevels: PriorityLevelDto[];
   selectedList: TodoListDto;
   selectedItem: TodoItemDto;
@@ -45,7 +46,7 @@ export class TodoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listsClient.get(null).subscribe(
+    this.listsClient.get(null,null).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
@@ -269,19 +270,33 @@ export class TodoComponent implements OnInit {
     
     console.log('Yeni renk kaydedildi:', item.bgColor);
   }
-  onChangeFilterTag(value: string) {
-    this.lists.forEach(list => list.items = []);
+  onChangeFilterTag(filtre: string) {
+   
 
-    this.listsClient.get(value).subscribe(
+    this.listsClient.get(filtre,null).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
         if (this.lists.length) {
           this.selectedList = this.lists[0];
+          let totalItemsCount = result.lists.reduce((sum, list) => sum + list.items.length, 0);
+          if (totalItemsCount > 0) {
+            if (filtre != '') {
+              var control = this.filtercounterlist.find(item => item.value === filtre);
+              if (control != null) control.count += 1;
+              else this.filtercounterlist.push({ value: filtre, count: 1 });
+              this.filtercounterlist.sort((a, b) => b.count - a.count);
+            }
+          }
         }
       },
       error => console.error(error)
     );
+  }
+  @ViewChild('tagfilter') tagfilter!: ElementRef;
+  applyFilter(value: string) {
+    this.tagfilter.nativeElement.value = value;
+    this.onChangeFilterTag(value);
   }
 
 }

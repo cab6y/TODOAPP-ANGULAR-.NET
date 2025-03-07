@@ -52,11 +52,29 @@
 }
 
 .color-picker {
-  margin-right: 10px; /* İkon ve input arasında boşluk */
+  margin-right: 10px;
 }
 
 .color-picker-icon {
-  font-size: 18px; /* İkon boyutunu ayarlama */
-  color: #333; /* İkon rengi */
-  cursor: pointer; /* İkon üzerine gelindiğinde pointer cursor */
+  font-size: 18px; 
+  color: #333;
+  cursor: pointer; 
+}
+.filter-chip {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-chip:hover {
+  background-color: #0056b3; 
+}
+.card{
+    margin-top:5%;
+    margin-bottom:5%;
 }
