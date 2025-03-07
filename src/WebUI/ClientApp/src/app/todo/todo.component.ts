@@ -264,9 +264,9 @@ export class TodoComponent implements OnInit {
     this.deleting = false;
   }
 
-  //satırda color değiştirme
+  //change color index
   changeIndexColor(item: any) {
-    // Burada rengi kaydetme işlemi yapılabilir. (LocalStorage veya API çağrısı)
+    
     console.log('Yeni renk kaydedildi:', item.bgColor);
   }
   onChangeFilterTag(value: string) {

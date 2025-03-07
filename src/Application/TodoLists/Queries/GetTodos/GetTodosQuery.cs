@@ -30,12 +30,12 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
         try
         {
             var query = _context.TodoLists
-            .Include(x => x.Items) // Items ile birlikte yükle
+            .Include(x => x.Items)
             .AsQueryable();
-
+            //Filtre is not null control
             if (request.Filter != null && !string.IsNullOrEmpty(request.Filter.Value))
             {
-                // Sadece ilgili Tag'e sahip olan Items'leri filtrele
+                //apply filtre
                 query = query
       .Select(todoList => new TodoList
       {
@@ -44,8 +44,8 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
           Colour = todoList.Colour,
           Items = todoList.Items
               .Where(item => item.Tag.Contains(request.Filter.Value))
-              .ToList() // Yeni bir liste oluşturup atıyoruz
-      }); // Boş olan listeleri filtrele
+              .ToList() 
+      });
 
             }
 
