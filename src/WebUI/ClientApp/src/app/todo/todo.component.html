@@ -33,10 +33,12 @@
       <div class="clearfix">
         <h2 class="float-start">{{ selectedList.title }}</h2>
         <button id="listOptions" class="btn btn-default float-end" title="List Options..."
-          (click)="showListOptionsModal(listOptionsModalTemplate)">
+                (click)="showListOptionsModal(listOptionsModalTemplate)">
           <i class="bi bi-three-dots-vertical"></i>
         </button>
       </div>
+
+      <div class="col-4"><input type="text" placeholder="filter tag" class="form-control" #tagfilter (change)="onChangeFilterTag(tagfilter.value)" /></div>
       <ul id="todo-items" class="list-group mb-2">
         <li class="list-group-item" *ngFor="let item of selectedList.items; index as i" [ngStyle]="{'background-color': colorPicker?.value || '#ffffff'}">
           <!-- This section is split into two columns with a row, thus making the part that sets the background color of the row responsive - burası row ile iki kolona ayrıldı böylelikle satırın arka plan rengini belirteceği bölüm responsive ayarlanması sağlandı-->
@@ -72,13 +74,13 @@
             <div class="col-lg-1 col-md-1 col-sm-2">
               <!-- FİRST TASK - The selected color here will be applied as the background for the Todo item in the row.  - Burada seçilen renk satırda todo'ya arka plan olarak uygulanacak'-->
               <div class="color-picker-container">
-  <i class="bi bi-palette color-picker-icon" (click)="colorPicker.click()"></i> <!-- Renk paleti ikonu -->
-  <input type="color"
-      #colorPicker
-      value="#ffffff"
-      (input)="colorPicker.style.backgroundColor = colorPicker.value"
-      class="color-picker" />
-</div>
+                <i class="bi bi-palette color-picker-icon" (click)="colorPicker.click()"></i> <!-- Renk paleti ikonu -->
+                <input type="color"
+                       #colorPicker
+                       value="#ffffff"
+                       (input)="colorPicker.style.backgroundColor = colorPicker.value"
+                       class="color-picker" />
+              </div>
 
             </div>
           </div>

@@ -4,15 +4,16 @@ using Todo_App.Application.TodoLists.Commands.DeleteTodoList;
 using Todo_App.Application.TodoLists.Commands.UpdateTodoList;
 using Todo_App.Application.TodoLists.Queries.ExportTodos;
 using Todo_App.Application.TodoLists.Queries.GetTodos;
+using Todo_App.WebUI.Filters;
 
 namespace Todo_App.WebUI.Controllers;
 
 public class TodoListsController : ApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<TodosVm>> Get()
+    public async Task<ActionResult<TodosVm>> Get([FromQuery] TodoFilterDto? filter)
     {
-        return await Mediator.Send(new GetTodosQuery());
+        return await Mediator.Send(new GetTodosQuery { Filter = filter });
     }
 
     [HttpGet("{id}")]

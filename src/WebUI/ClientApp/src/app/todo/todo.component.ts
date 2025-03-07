@@ -45,7 +45,7 @@ export class TodoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listsClient.get().subscribe(
+    this.listsClient.get(null).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
@@ -269,4 +269,19 @@ export class TodoComponent implements OnInit {
     // Burada rengi kaydetme işlemi yapılabilir. (LocalStorage veya API çağrısı)
     console.log('Yeni renk kaydedildi:', item.bgColor);
   }
+  onChangeFilterTag(value: string) {
+    this.lists.forEach(list => list.items = []);
+
+    this.listsClient.get(value).subscribe(
+      result => {
+        this.lists = result.lists;
+        this.priorityLevels = result.priorityLevels;
+        if (this.lists.length) {
+          this.selectedList = this.lists[0];
+        }
+      },
+      error => console.error(error)
+    );
+  }
+
 }

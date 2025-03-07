@@ -212,6 +212,17 @@
           "TodoLists"
         ],
         "operationId": "TodoLists_Get",
+        "parameters": [
+          {
+            "name": "Value",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
