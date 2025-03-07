@@ -162,7 +162,6 @@ export class TodoComponent implements OnInit {
           this.selectedItem.listId = item.listId;
           this.lists[listIndex].items.push(this.selectedItem);
         }
-        debugger;
         this.selectedItem.priority = item.priority;
         this.selectedItem.note = item.note;
         this.selectedItem.tag = item.tag;
