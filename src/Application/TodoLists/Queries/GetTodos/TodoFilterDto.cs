@@ -2,6 +2,5 @@
 
 public class TodoFilterDto
 {
-    public string? Value { get; set; }
-    public int? Sayac { get; set; } 
+    public string? Tag { get; set; }
 }

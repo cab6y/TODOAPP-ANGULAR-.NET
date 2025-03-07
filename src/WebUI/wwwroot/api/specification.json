@@ -214,23 +214,13 @@
         "operationId": "TodoLists_Get",
         "parameters": [
           {
-            "name": "Value",
+            "name": "Tag",
             "in": "query",
             "schema": {
               "type": "string",
               "nullable": true
             },
             "x-position": 1
-          },
-          {
-            "name": "Sayac",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "nullable": true
-            },
-            "x-position": 2
           }
         ],
         "responses": {

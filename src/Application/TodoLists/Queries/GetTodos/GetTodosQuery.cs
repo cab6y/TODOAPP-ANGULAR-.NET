@@ -31,7 +31,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
             .Include(x => x.Items)
             .AsQueryable();
             //Filtre is not null control
-            if (request.Filter != null && !string.IsNullOrEmpty(request.Filter.Value))
+            if (request.Filter != null && !string.IsNullOrEmpty(request.Filter.Tag))
             {
                 //apply filtre
                 query = query
@@ -41,7 +41,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
           Title = todoList.Title,
           Colour = todoList.Colour,
           Items = todoList.Items
-              .Where(item => item.Tag.Contains(request.Filter.Value))
+              .Where(item => item.Tag.Contains(request.Filter.Tag))
               .ToList() 
       });
 

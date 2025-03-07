@@ -46,7 +46,7 @@ export class TodoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listsClient.get(null,null).subscribe(
+    this.listsClient.get(null).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
@@ -164,6 +164,7 @@ export class TodoComponent implements OnInit {
         }
         this.selectedItem.priority = item.priority;
         this.selectedItem.note = item.note;
+        //FEATURE 2 - Users can add and remove tags to the Todo items.
         this.selectedItem.tag = item.tag;
         this.itemDetailsModalRef.hide();
         this.itemDetailsFormGroup.reset();
@@ -269,10 +270,10 @@ export class TodoComponent implements OnInit {
     
     console.log('Yeni renk kaydedildi:', item.bgColor);
   }
-  onChangeFilterTag(filtre: string) {
+  onChangeFilterTag(tag: string) {
    
 
-    this.listsClient.get(filtre,null).subscribe(
+    this.listsClient.get(tag).subscribe(
       result => {
         this.lists = result.lists;
         this.priorityLevels = result.priorityLevels;
@@ -280,10 +281,11 @@ export class TodoComponent implements OnInit {
           this.selectedList = this.lists[0];
           let totalItemsCount = result.lists.reduce((sum, list) => sum + list.items.length, 0);
           if (totalItemsCount > 0) {
-            if (filtre != '') {
-              var control = this.filtercounterlist.find(item => item.value === filtre);
+            if (tag != '') {
+              //FEATURE2 - Add shortcuts on UI for the most used tags by the user. (nice to have)
+              var control = this.filtercounterlist.find(item => item.value === tag);
               if (control != null) control.count += 1;
-              else this.filtercounterlist.push({ value: filtre, count: 1 });
+              else this.filtercounterlist.push({ value: tag, count: 1 });
               this.filtercounterlist.sort((a, b) => b.count - a.count);
             }
           }
@@ -292,10 +294,17 @@ export class TodoComponent implements OnInit {
       error => console.error(error)
     );
   }
+
+  //FEATURE 2 - Add shortcuts on UI for the most used tags by the user. (nice to have)
   @ViewChild('tagfilter') tagfilter!: ElementRef;
   applyFilter(value: string) {
     this.tagfilter.nativeElement.value = value;
     this.onChangeFilterTag(value);
+  }
+
+  //FEAUTRE2 - Add text search. (nice to have)
+  filterinlist(value: string) {
+    console.log("************" + value);
   }
 
 }
