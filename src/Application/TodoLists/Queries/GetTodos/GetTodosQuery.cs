@@ -68,11 +68,13 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
                     .ToList(),
 
                 Lists = await query
-                    .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider).Select(x=> new TodoListDto {
+                    .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider).Select(x => new TodoListDto
+                    {
                         Id = x.Id,
                         Title = x.Title,
                         Colour = x.Colour,
                         Items = x.Items
+             .Where(item => item.IsDeleted == false)
              .ToList()
                     })
                     .OrderBy(t => t.Title)
