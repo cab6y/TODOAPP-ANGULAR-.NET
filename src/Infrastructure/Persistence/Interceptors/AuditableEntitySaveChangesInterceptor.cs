@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Todo_App.Application.Common.Interfaces;
 using Todo_App.Domain.Common;
+using Todo_App.Domain.Entities;
 
 namespace Todo_App.Infrastructure.Persistence.Interceptors;
 
@@ -22,14 +23,12 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
         UpdateEntities(eventData.Context);
-
         return base.SavingChanges(eventData, result);
     }
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
         UpdateEntities(eventData.Context);
-
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
@@ -49,6 +48,16 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
             {
                 entry.Entity.LastModifiedBy = _currentUserService.UserId;
                 entry.Entity.LastModified = _dateTime.Now;
+            }
+        }
+
+        // Soft Delete Mekanizması
+        foreach (var entry in context.ChangeTracker.Entries())
+        {
+            if (entry.State == EntityState.Deleted && entry.Entity is ISoftDelete softDeleteEntity)
+            {
+                entry.State = EntityState.Modified;
+                softDeleteEntity.IsDeleted = true;
             }
         }
     }

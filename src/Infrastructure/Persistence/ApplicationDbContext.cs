@@ -27,6 +27,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     {
         _mediator = mediator;
         _auditableEntitySaveChangesInterceptor = auditableEntitySaveChangesInterceptor;
+
     }
 
     public DbSet<TodoList> TodoLists => Set<TodoList>();
@@ -52,7 +53,6 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-        optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
 
     }
     private static void ApplySoftDeleteFilter<T>(ModelBuilder modelBuilder) where T : class, ISoftDelete
@@ -63,15 +63,15 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     {
         try
         {
-           
+
             await _mediator.DispatchDomainEvents(this);
 
             return await base.SaveChangesAsync(cancellationToken);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
-        
+
     }
 }
