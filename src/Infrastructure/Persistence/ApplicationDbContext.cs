@@ -37,6 +37,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        #region hiçbir listelemede bu silinmiş olanlar gösterilmesin
         foreach (var entityType in builder.Model.GetEntityTypes())
         {
             if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
@@ -47,6 +48,7 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
                 method?.Invoke(null, new object[] { builder });
             }
         }
+        #endregion
         base.OnModelCreating(builder);
     }
 
