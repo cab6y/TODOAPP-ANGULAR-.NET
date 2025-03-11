@@ -1,6 +1,6 @@
 ﻿namespace Todo_App.Domain.Entities;
 
-public class TodoList : BaseAuditableEntity
+public class TodoList : BaseAuditableEntity , ISoftDelete
 {
     public string? Title { get; set; }
 

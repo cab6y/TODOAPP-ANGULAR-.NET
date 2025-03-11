@@ -73,7 +73,6 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, TodosVm>
                         Title = x.Title,
                         Colour = x.Colour,
                         Items = x.Items
-             .Where(item => item.IsDeleted == false)
              .ToList()
                     })
                     .OrderBy(t => t.Title)

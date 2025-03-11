@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Reflection.Emit;
 using Duende.IdentityServer.EntityFramework.Options;
 using MediatR;
@@ -35,29 +36,34 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>, 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            if (typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType))
+            {
+                var method = typeof(ApplicationDbContext).GetMethod(nameof(ApplySoftDeleteFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)
+                             ?.MakeGenericMethod(entityType.ClrType);
 
+                method?.Invoke(null, new object[] { builder });
+            }
+        }
         base.OnModelCreating(builder);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
-    }
+        optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
 
+    }
+    private static void ApplySoftDeleteFilter<T>(ModelBuilder modelBuilder) where T : class, ISoftDelete
+    {
+        modelBuilder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
+    }
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            foreach (var entry in ChangeTracker.Entries())
-            {
-                var entity = entry.Entity;
-
-                if (entry.State == EntityState.Deleted)
-                {
-                    entry.State = EntityState.Modified;
-                    entity.GetType().GetProperty("IsDeleted").SetValue(entity, true);
-                }
-            }
+           
             await _mediator.DispatchDomainEvents(this);
 
             return await base.SaveChangesAsync(cancellationToken);
