@@ -1,7 +1,4 @@
-# FD Test case project!
-Welcome to your test task.
 
-Our test task is based on the Clean Architecture Solution Template that uses .NET and Angular. In it, there is a simple Todo app that we wish you to add three features. After finishing the task, please create a GitHub repository containing this project's initial files in the main branch and separate branches for every feature you will work on. And make Pull Request for every feature for us to review.
 
 ## Feature 1
 - Users can change the background color for each Todo item.
