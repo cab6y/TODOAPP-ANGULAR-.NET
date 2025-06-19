@@ -13,8 +13,3 @@
 - Add soft delete for Todo lists and items.
 - Deleted items should not be deleted from the database
 - Deleted items should not be shown on the UI or included in any query
-
-
-**Include as much unit test coverage as possible for the code you add.**
-
-We are aware that our tasks have open-ended questions. But we wish to see your perspective and ideas. Feel free to let your imagination run wild and create anything you want with this task.
